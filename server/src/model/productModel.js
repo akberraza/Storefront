@@ -16,6 +16,10 @@ const productSchema = new mongoose.Schema(
             required: true,
             default: 0
         },
+        costPrice: {
+           type: Number,
+           required: true
+        },
         businessId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Business",

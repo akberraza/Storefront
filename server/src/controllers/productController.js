@@ -3,16 +3,21 @@ const Product = require("../model/productModel.js");
 exports.createProduct = async(req, res) => {
     try {
         
-        const {name, price, stock} = req.body;
+        const {name, price, stock, costPrice} = req.body;
 
-        if(!name || !price || !stock){
-            throw new Error("All fields are required!")
+        if(!name || price == null){
+            return res.status(400).json({message: "Name and price required"})
+        }
+
+        if(price < 0 || stock < 0){
+          return res.status(400).json({message: "Invalid price or stock"});
         }
 
         const product = await Product.create({
             name,
             price,
             stock,
+            costPrice,
             businessId: req.user.businessId
         });
         
@@ -25,7 +30,7 @@ exports.createProduct = async(req, res) => {
 exports.getProduct = async(req, res) => {
     try {
         
-        const products = await Product.findById({
+        const products = await Product.find({
             businessId: req.user.businessId
         })
 
@@ -73,6 +78,23 @@ exports.deleteProduct = async(req, res) => {
         }
 
         res.json({message: 'product delete successfully'})
+
+    } catch (err) {
+        res.status(500).json({message: err.message});
+    }
+}
+
+exports.getLowStockProducts = async(req, res) => {
+    try {
+        
+        const threshold = parseInt(req.query.threshold) || 5;
+
+        const products = await Product.find({
+            businessId: req.user.businessId,
+            stock: { $lte: threshold},
+        })
+
+        res.json(products);
 
     } catch (err) {
         res.status(500).json({message: err.message});

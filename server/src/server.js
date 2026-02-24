@@ -7,6 +7,9 @@ const seedSuperAdmin = require("./config/seedSuperAdmin.js");
 const authRoutes = require("./routes/authRouter.js");
 const businessRoutes = require("./routes/businessRoute.js");
 const ProductRoutes = require("./routes/productRoutes.js");
+const saleRoutes = require("./routes/saleRoutes.js");
+const userRoutes = require("./routes/userRoutes.js");
+const orderRoutes = require("./routes/orderRoutes.js");
 
 dotenv.config();
 
@@ -26,3 +29,6 @@ connectDB().then(()=> {
 app.use("/api/auth", authRoutes);
 app.use("/api/business", businessRoutes);
 app.use("/api/products", ProductRoutes);
+app.use("/api/sales", saleRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/order", orderRoutes);
