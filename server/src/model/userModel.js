@@ -23,6 +23,7 @@ const userSchema = new mongoose.Schema({
     role:{
         type: String,
         enum: ["super_admin", "business_admin","cashier"],
+        default: "cashier"
     },
     businessId:{
         type: mongoose.Schema.Types.ObjectId,

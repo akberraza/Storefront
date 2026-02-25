@@ -29,7 +29,16 @@ const orderSchema = new mongoose.Schema({
       type: Number,
       default: 0
     },
-
+    paymentMethod:{
+      type: String,
+      enum: ["cash","card"],
+      required: true,
+    },
+    paymentStatus:{
+        type: String,
+        enum: ["paid", "refund"],
+        default: "paid"
+    },
     createdBy:{
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
